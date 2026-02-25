@@ -66,6 +66,9 @@ app.MapDelete("/games/{id}", (int id) =>
     return Results.NoContent();
 });
 
+// handle 404 not found for any other endpoints
+app.MapFallback(() => Results.NotFound()); 
+//this will handle any requests that do not match any of the above endpoints and return a 404 Not Found response
 
 
 app.Run();
