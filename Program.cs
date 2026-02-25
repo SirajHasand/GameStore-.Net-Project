@@ -32,17 +32,7 @@ app.MapPost("/games", (CreateGameDto newGame) =>
     );
     games.Add(game);
     return Results.CreatedAtRoute(EndpointName, new { id = game.Id }, game);
-    // CreatedAtRoute is used to return a 201 Created response with a Location header 
-    // that contains the URL of the newly created resource,
-    //  and the body of the response contains the newly created resource itself.
-
-    // The first parameter is the name of the route that we want to use to generate the URL of the newly created resource,
-    // the second parameter is an anonymous object that contains the route parameters that we want to use
-    // to generate the URL of the newly created resource, in this case we want to use the id of the newly created game,
-    // and the third parameter is the body of the response, which is the newly created game
-
-    
-
+   
 });
 
 // PUT /games/1 
