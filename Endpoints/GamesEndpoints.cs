@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using GameStore.Api.Dtos;
 
 namespace GameStore.Api.Endpoints;
@@ -34,6 +35,10 @@ const string EndpointName = "GetGameById"; // this is used to give a name to the
         //POST /games
         Group.MapPost("/", (CreateGameDto newGame) =>
         {
+           if (games.Any(game => game.Name == newGame.Name))
+    {
+        return Results.Conflict($"A game with the name '{newGame.Name}' already exists.");
+    }
             GameDto game = new(
                 games.Count + 1,
                 newGame.Name,
