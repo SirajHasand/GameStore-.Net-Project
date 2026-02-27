@@ -15,11 +15,13 @@ const string EndpointName = "GetGameById"; // this is used to give a name to the
  };
     public static void MapGamesEndpoints(this WebApplication app)
     {
+        // we can use MapGroup to group our endpoints, this is useful for versioning and also for adding common tags to our endpoints
+        var Group = app.MapGroup("/games").WithTags("Games");
         //GET  /games
-        app.MapGet("/games", () => games);
+        Group.MapGet("/", () => games);
  
         // GET /games/1
-        app.MapGet("/games/{id}", (int id) =>{
+        Group.MapGet("/{id}", (int id) =>{
             var game = games.Find(game => game.Id == id);
             if (game is null)
             {
@@ -30,7 +32,7 @@ const string EndpointName = "GetGameById"; // this is used to give a name to the
         .WithName(EndpointName); // this is used to give a name to the route, so we can use it in the CreatedAtRoute method in the POST endpoint
  
         //POST /games
-        app.MapPost("/games", (CreateGameDto newGame) =>
+        Group.MapPost("/", (CreateGameDto newGame) =>
         {
             GameDto game = new(
                 games.Count + 1,
@@ -45,7 +47,7 @@ const string EndpointName = "GetGameById"; // this is used to give a name to the
         });
  
         // PUT /games/1 
-        app.MapPut("/games/{id}", (int id, UpdateGameDto updatedGame) =>
+        Group.MapPut("/{id}", (int id, UpdateGameDto updatedGame) =>
         {
             var game = games.Find(game => game.Id == id);
             if (game is null)
@@ -64,7 +66,7 @@ const string EndpointName = "GetGameById"; // this is used to give a name to the
  
         }); 
         // DELETE /games/1
-        app.MapDelete("/games/{id}", (int id) =>
+        Group.MapDelete("/{id}", (int id) =>
         {
             var game = games.Find(game => game.Id == id);
             if (game is null)
